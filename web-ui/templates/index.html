@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        pre {
+            word-wrap: break-word;
+        }
+
+
+        .chat-container {
+            width: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            max-height: 3840px; 
+            overflow-y: auto;
+        }
+
+        #dummy{
+            margin-top: 2%;
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat with AI</h1>
+        <form action="/get_response" method="post">
+            <input type="text" name="user_input" id="user_input" placeholder="Type your message here...">
+            <input type="submit" value="Send">
+            <button id="dummy" onclick="window.location.href='/history'">History</button>
+        </form>
+        <div id="response"></div>
+
+        
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            let user_input = document.getElementById('user_input').value;
+            document.getElementById('response').innerHTML = 'Waiting for answer...';
+            let response = await fetch('/get_response', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'user_input': user_input
+                })
+            });
+            let responseData = await response.text();
+            document.getElementById('user_input').value = '';
+        document.getElementById('response').innerHTML = "<pre>" + responseData +"</pre>";
+        });
+    </script>
+</body>
+</html>

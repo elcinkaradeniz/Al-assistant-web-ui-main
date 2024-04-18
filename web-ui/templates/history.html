@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chat-entry {
+            margin-bottom: 20px;
+
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        pre {
+            word-wrap: break-word;
+        }
+        .user-input {
+            font-weight: bold;
+        }
+        .model-response {
+            color: #666;
+        }
+        #dummy{
+            margin-top: 2%;
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <h1>Chat History</h1>
+        <button id="dummy" onclick="window.location.href='/'">Home</button>
+        
+        {% for user_input, model_response in history.items() %}
+            <div class="chat-entry">
+                <p class="user-input">User: {{ user_input }}</p>
+                <p class="model-response"><pre>Model: {{ model_response }}</pre></p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
